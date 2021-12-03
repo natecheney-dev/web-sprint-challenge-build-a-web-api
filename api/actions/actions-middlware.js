@@ -1,1 +1,45 @@
-// add middlewares here related to actions
+const Actions = require('./actions-model');
+
+//VALIDATE PROJECT ID
+async function validateId(req, res, next) {
+    try{
+        const { id } = req.params
+        const actions = await Actions.get(id)
+        if(!actions){
+            next({status:404, message: 'User not found.'})
+        } else {
+            req.actions = actions
+            next()
+        }
+    } catch (err) {
+        res.status(500).json({
+          message: 'Action not found.',
+      })
+    }}
+
+//VALIDATE BODY
+async function validateBody(req, res, next) {
+    const { project_id, description, notes, completed } = req.body
+    if (!project_id) {
+        res.status(400).json({
+        message: 'Missing required project_id field.'
+    })} 
+    else if (!description) {
+        res.status(400).json({
+        message: 'Missing required description field.'
+    })}
+    else if(!notes){
+        res.status(400).json({
+        message: 'Missing required notes field.'
+    })}
+    else {
+        req.project_id = project_id
+        req.description = description
+        req.notes = notes
+        req.completed = completed
+        next()
+        }
+
+}
+
+module.exports = { validateId, validateBody }
