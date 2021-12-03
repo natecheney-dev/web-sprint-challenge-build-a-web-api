@@ -36,13 +36,13 @@ router.put("/:id", validateID, validateBody, (req, res, next) =>{
     Project.update(req.params.id, {
         name: req.name,
         description: req.description,
-        completed: req.completed
+        completed: req.completed,
     })
         .then(() => {
                 return Project.get(req.params.id)
     })
         .then(project => {
-            res.status(201).json(project)
+            res.json(project)
     })
         .catch(next)
     })

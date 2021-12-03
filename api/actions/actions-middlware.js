@@ -20,18 +20,10 @@ async function validateId(req, res, next) {
 //VALIDATE BODY
 async function validateBody(req, res, next) {
     const { project_id, description, notes, completed } = req.body
-    if (!project_id) {
+    if (!project_id || !description || !notes) {
         res.status(400).json({
-        message: 'Missing required project_id field.'
+        message: 'Missing project_id, description, or notes.'
     })} 
-    else if (!description) {
-        res.status(400).json({
-        message: 'Missing required description field.'
-    })}
-    else if(!notes){
-        res.status(400).json({
-        message: 'Missing required notes field.'
-    })}
     else {
         req.project_id = project_id
         req.description = description

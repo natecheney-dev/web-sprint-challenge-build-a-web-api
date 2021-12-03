@@ -19,16 +19,12 @@ async function validateID(req, res, next) {
       })
 }}
 
-//VALIDATE BODY
+//VALIDATE BODY TEST 10 NOT PASSING FROM HERE
 async function validateBody(req, res, next) {
     const { name, description, completed } = req.body
-    if (!name) {
+    if (!name || !description) {
         res.status(400).json({
-        message: 'Missing required name field.'
-})}
-    else if (!description) {
-        res.status(400).json({
-        message: 'Missing required description field.'
+        message: 'Missing name or description.'
 })}
     else {
         req.name = name
